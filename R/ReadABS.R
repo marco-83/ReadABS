@@ -41,9 +41,14 @@ for (obj in names(create_df_xlsx)) {
 }
 rm(create_df_xlsx)
 
+xlrd <- NULL
+pandas <- NULL
+openpyxl <- NULL
+numpy <- NULL
+xlsxwriter <- NULL
 
 .onLoad <- function(libname, pkgname) {
-
+  reticulate::configure_environment(pkgname)
   # reticulate::py_install("openpyxl")
   # reticulate::py_install("xlsxwriter")
 
@@ -55,7 +60,13 @@ rm(create_df_xlsx)
     }
     #assign(package,reticulate::import(package),pkg_ns_env)
   }
-  reticulate::configure_environment(pkgname)
+
+  xlrd <<- reticulate::import("xlrd", delay_load = TRUE)
+  pandas <<- reticulate::import("pandas", delay_load = TRUE)
+  openpyxl <<- reticulate::import("openpyxl", delay_load = TRUE)
+  numpy <<- reticulate::import("numpy", delay_load = TRUE)
+  xlsxwriter <<- reticulate::import("xlsxwriter", delay_load = TRUE)
+
 
   #reticulate::configure_environment(pkgname)
   #xlrd <<- reticulate::import("xlrd", delay_load = FALSE)
