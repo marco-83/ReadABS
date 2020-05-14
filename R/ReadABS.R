@@ -52,20 +52,20 @@
   reticulate::configure_environment(pkgname)
   #xlsxwriter <<- reticulate::import("xlsxwriter", delay_load = TRUE)
 
-  ABStable <- reticulate::import_from_path(
+  reticulate::import_from_path(
     module = "ABStable",
     path = system.file("python", package = packageName())
   )
-  ABStable_xlsx <- reticulate::import_from_path(
+  reticulate::import_from_path(
     module = "ABStable_xlsx",
     path = system.file("python", package = packageName())
   )
 
-  create_df_xlsx <- reticulate::import_from_path(
+  reticulate::import_from_path(
     module = "create_df_xlsx",
     path = system.file("python", package = packageName())
   )
-  create_df_xlsx <- reticulate::import_from_path(
+  reticulate::import_from_path(
     module = "create_df_xlsx",
     path = system.file("python", package = packageName())
   )
