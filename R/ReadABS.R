@@ -50,6 +50,7 @@
 
 .onLoad <- function(libname, pkgname) {
   reticulate::configure_environment(pkgname)
+  xlsxwriter <<- import("xlsxwriter", delay_load = TRUE)
 
   ABStable <<- reticulate::import_from_path(
     module = "ABStable",
