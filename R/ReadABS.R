@@ -47,6 +47,7 @@ openpyxl <- NULL
 numpy <- NULL
 xlsxwriter <- NULL
 
+
 .onLoad <- function(libname, pkgname) {
   reticulate::configure_environment(pkgname)
   # reticulate::py_install("openpyxl")
@@ -71,6 +72,9 @@ xlsxwriter <- NULL
   #reticulate::configure_environment(pkgname)
   #xlrd <<- reticulate::import("xlrd", delay_load = FALSE)
   #xlrd <- reticulate::import("xlrd")
+  if (reticulate::py_module_available("pandas") & reticulate::py_module_available("xlrd") &
+      reticulate::py_module_available("openpyxl") & reticulate::py_module_available("numpy") &
+      reticulate::py_module_available("xlsxwriter")) {
   ABStable <- reticulate::import_from_path(
     module = "ABStable",
     path = system.file("python", package = packageName())
@@ -119,6 +123,7 @@ xlsxwriter <- NULL
   #import_xls <<- module1$import_xls
   main_xls <<- create_df_xls$main_xls
   main_xlsx <<- create_df_xlsx$main_xlsx
+  }
   #define_table <<- ABStable$define_table
   # import_spreadsheet <<- module3$import_spreadsheet
 
