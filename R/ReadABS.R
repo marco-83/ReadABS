@@ -75,7 +75,7 @@ xlsxwriter <- NULL
   if (reticulate::py_module_available("pandas") & reticulate::py_module_available("xlrd") &
       reticulate::py_module_available("openpyxl") & reticulate::py_module_available("numpy") &
       reticulate::py_module_available("xlsxwriter")) {
-  ABStable <- reticulate::import_from_path(
+  ABStable <<- reticulate::import_from_path(
     module = "ABStable",
     path = system.file("python", package = packageName())
   )
