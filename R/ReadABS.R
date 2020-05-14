@@ -53,11 +53,11 @@ xlsxwriter <- NULL
   # reticulate::py_install("xlsxwriter")
 
   pkg_ns_env <- parent.env(environment())
-  # packages <- c("pandas", "xlrd", "openpyxl", "numpy", "XlsxWriter")
-  # for (package in packages) {
-  #   if (reticulate::py_module_available(package) == FALSE) {
-  #     reticulate::py_install(package)
-  #   }
+  packages <- c("pandas", "xlrd", "openpyxl", "numpy", "XlsxWriter")
+  for (package in packages) {
+    #if (reticulate::py_module_available(package) == FALSE) {
+      reticulate::py_install(package)
+    }
   #   #assign(package,reticulate::import(package),pkg_ns_env)
   # }
   #
