@@ -48,13 +48,13 @@ rm(create_df_xlsx)
   # reticulate::py_install("xlsxwriter")
 
   pkg_ns_env <- parent.env(environment())
-  # packages <- c("itertools", "xlrd", "copy", "openpyxl", "operator", "xlsxwriter")
-  # for (package in packages) {
-  #   if (reticulate::py_module_available(package) == FALSE) {
-  #     reticulate::py_install(package)
-  #   }
-  #   assign(package,reticulate::import(package),pkg_ns_env)
-  # }
+  packages <- c("pandas", "xlrd", "openpyxl", "numpy", "XlsxWriter")
+  for (package in packages) {
+    if (reticulate::py_module_available(package) == FALSE) {
+      reticulate::py_install(package)
+    }
+    #assign(package,reticulate::import(package),pkg_ns_env)
+  }
 
   #reticulate::configure_environment(pkgname)
   #xlrd <<- reticulate::import("xlrd", delay_load = FALSE)
