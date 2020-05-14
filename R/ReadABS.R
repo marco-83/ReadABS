@@ -41,11 +41,11 @@
 # }
 # rm(create_df_xlsx)
 
-xlrd <- NULL
-pandas <- NULL
-openpyxl <- NULL
-numpy <- NULL
-xlsxwriter <- NULL
+# xlrd <- NULL
+# pandas <- NULL
+# openpyxl <- NULL
+# numpy <- NULL
+# xlsxwriter <- NULL
 
 
 .onLoad <- function(libname, pkgname) {
