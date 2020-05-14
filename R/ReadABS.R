@@ -88,7 +88,7 @@ xlsxwriter <- NULL
   # module1 <- reticulate::import_from_path(module = "import_xls",
   #                                            path =system.file("python",
   #                                                              package = packageName()))
-  create_df_xls <- reticulate::import_from_path(module = "create_df_xls",
+  create_df_xls <<- reticulate::import_from_path(module = "create_df_xls",
                                           path = system.file("python",
                                                              package = packageName()))
 
@@ -98,7 +98,7 @@ xlsxwriter <- NULL
   # }
 
 
-  ABStable_xlsx <- reticulate::import_from_path(
+  ABStable_xlsx <<- reticulate::import_from_path(
     module = "ABStable_xlsx",
     path = system.file("python", package = packageName())
   )
@@ -108,7 +108,7 @@ xlsxwriter <- NULL
   #   assign(obj,obj,pkg_ns_env)
   # }
 
-  create_df_xlsx <- reticulate::import_from_path(
+  create_df_xlsx <<- reticulate::import_from_path(
     module = "create_df_xlsx",
     path = system.file("python", package = packageName())
   )
