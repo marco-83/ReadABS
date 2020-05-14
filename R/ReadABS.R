@@ -50,6 +50,24 @@
 
 .onLoad <- function(libname, pkgname) {
   reticulate::configure_environment(pkgname)
+
+  ABStable <<- reticulate::import_from_path(
+    module = "ABStable",
+    path = system.file("python", package = packageName())
+  )
+  ABStable_xlsx <<- reticulate::import_from_path(
+    module = "ABStable_xlsx",
+    path = system.file("python", package = packageName())
+  )
+
+  create_df_xlsx <<- reticulate::import_from_path(
+    module = "create_df_xlsx",
+    path = system.file("python", package = packageName())
+  )
+  create_df_xlsx <<- reticulate::import_from_path(
+    module = "create_df_xlsx",
+    path = system.file("python", package = packageName())
+  )
   # reticulate::py_install("openpyxl")
   # reticulate::py_install("xlsxwriter")
 
@@ -85,23 +103,7 @@
     #   assign(obj,obj,pkg_ns_env)
     # }
 
-    ABStable <<- reticulate::import_from_path(
-      module = "ABStable",
-      path = system.file("python", package = packageName())
-    )
-    ABStable_xlsx <<- reticulate::import_from_path(
-      module = "ABStable_xlsx",
-      path = system.file("python", package = packageName())
-    )
 
-    create_df_xlsx <<- reticulate::import_from_path(
-      module = "create_df_xlsx",
-      path = system.file("python", package = packageName())
-    )
-    create_df_xlsx <<- reticulate::import_from_path(
-      module = "create_df_xlsx",
-      path = system.file("python", package = packageName())
-    )
 
     # assignInMyNamespace(...) is meant for namespace manipulation
     # for (obj in names(ABStable_xlsx)) {
