@@ -21,6 +21,6 @@ Config/reticulate:
       list(package = "pandas", pip = TRUE),
       list(package = "openpyxl", pip = TRUE),
       list(package = "numpy", pip = TRUE),
-      list(package = "XlsxWriter, pip = TRUE")
+      list(package = "XlsxWriter", pip = TRUE)
     )
   )
