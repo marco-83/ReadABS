@@ -17,10 +17,10 @@ Imports:
 Config/reticulate:
   list(
     packages = list(
-      list(package = "xlrd", pip = TRUE),
-      list(package = "pandas", pip = TRUE),
-      list(package = "openpyxl", pip = TRUE),
-      list(package = "numpy", pip = TRUE),
-      list(package = "XlsxWriter", pip = TRUE)
+      list(package = "xlrd"),
+      list(package = "pandas"),
+      list(package = "openpyxl"),
+      list(package = "numpy"),
+      list(package = "XlsxWriter")
     )
   )
