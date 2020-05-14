@@ -48,7 +48,7 @@ numpy <- NULL
 xlsxwriter <- NULL
 
 .onLoad <- function(libname, pkgname) {
-  reticulate::configure_environment(pkgname)
+
   # reticulate::py_install("openpyxl")
   # reticulate::py_install("xlsxwriter")
 
@@ -66,7 +66,7 @@ xlsxwriter <- NULL
   openpyxl <<- reticulate::import("openpyxl", delay_load = TRUE)
   numpy <<- reticulate::import("numpy", delay_load = TRUE)
   xlsxwriter <<- reticulate::import("xlsxwriter", delay_load = TRUE)
-
+  reticulate::configure_environment(pkgname)
 
   #reticulate::configure_environment(pkgname)
   #xlrd <<- reticulate::import("xlrd", delay_load = FALSE)
