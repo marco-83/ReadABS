@@ -5,41 +5,41 @@
 # xlrd <- NULL
 
 # Load the module and create dummy objects from it, all of which are NULL
-ABStable <- reticulate::import_from_path(
-  "ABStable",
-  file.path("inst", "python")
-)
-for (obj in names(ABStable)) {
-  assign(obj, NULL)
-}
-rm(ABStable)
-
-create_df_xls <- reticulate::import_from_path(
-  "create_df_xls",
-  file.path("inst", "python")
-)
-for (obj in names(create_df_xls)) {
-  assign(obj, NULL)
-}
-rm(create_df_xls)
-
-ABStable_xlsx <- reticulate::import_from_path(
-  "ABStable_xlsx",
-  file.path("inst", "python")
-)
-for (obj in names(ABStable_xlsx)) {
-  assign(obj, NULL)
-}
-rm(ABStable_xlsx)
-
-create_df_xlsx <- reticulate::import_from_path(
-  "create_df_xlsx",
-  file.path("inst", "python")
-)
-for (obj in names(create_df_xlsx)) {
-  assign(obj, NULL)
-}
-rm(create_df_xlsx)
+# ABStable <- reticulate::import_from_path(
+#   "ABStable",
+#   file.path("inst", "python")
+# )
+# for (obj in names(ABStable)) {
+#   assign(obj, NULL)
+# }
+# rm(ABStable)
+#
+# create_df_xls <- reticulate::import_from_path(
+#   "create_df_xls",
+#   file.path("inst", "python")
+# )
+# for (obj in names(create_df_xls)) {
+#   assign(obj, NULL)
+# }
+# rm(create_df_xls)
+#
+# ABStable_xlsx <- reticulate::import_from_path(
+#   "ABStable_xlsx",
+#   file.path("inst", "python")
+# )
+# for (obj in names(ABStable_xlsx)) {
+#   assign(obj, NULL)
+# }
+# rm(ABStable_xlsx)
+#
+# create_df_xlsx <- reticulate::import_from_path(
+#   "create_df_xlsx",
+#   file.path("inst", "python")
+# )
+# for (obj in names(create_df_xlsx)) {
+#   assign(obj, NULL)
+# }
+# rm(create_df_xlsx)
 
 xlrd <- NULL
 pandas <- NULL
@@ -54,6 +54,60 @@ xlsxwriter <- NULL
   # reticulate::py_install("xlsxwriter")
 
   pkg_ns_env <- parent.env(environment())
+
+  if (reticulate::py_module_available("pandas") & reticulate::py_module_available("xlrd") &
+      reticulate::py_module_available("openpyxl") & reticulate::py_module_available("numpy") &
+      reticulate::py_module_available("xlsxwriter")) {
+    ABStable <<- reticulate::import_from_path(
+      module = "ABStable",
+      path = system.file("python", package = packageName())
+    )
+    # assignInMyNamespace(...) is meant for namespace manipulation
+    # for (obj in names(ABStable)) {
+    #   assignInMyNamespace(obj, ABStable[[obj]])
+    #   assign(obj,obj,pkg_ns_env)
+    # }
+    # ABStable
+    # module1 <- reticulate::import_from_path(module = "import_xls",
+    #                                            path =system.file("python",
+    #                                                              package = packageName()))
+    create_df_xls <<- reticulate::import_from_path(module = "create_df_xls",
+                                                   path = system.file("python",
+                                                                      package = packageName()))
+
+    # for (obj in names(create_df_xls)) {
+    #   assignInMyNamespace(obj, create_df_xls[[obj]])
+    #   assign(obj,obj,pkg_ns_env)
+    # }
+
+
+    ABStable_xlsx <<- reticulate::import_from_path(
+      module = "ABStable_xlsx",
+      path = system.file("python", package = packageName())
+    )
+    # assignInMyNamespace(...) is meant for namespace manipulation
+    # for (obj in names(ABStable_xlsx)) {
+    #   assignInMyNamespace(obj, ABStable_xlsx[[obj]])
+    #   assign(obj,obj,pkg_ns_env)
+    # }
+
+    create_df_xlsx <<- reticulate::import_from_path(
+      module = "create_df_xlsx",
+      path = system.file("python", package = packageName())
+    )
+    # assignInMyNamespace(...) is meant for namespace manipulation
+    # for (obj in names(create_df_xlsx)) {
+    #   assignInMyNamespace(obj, create_df_xlsx[[obj]])
+    #   assign(obj,obj,pkg_ns_env)
+    # }
+
+
+    # lapply(names(module3), function(name) assign(name, module3[[name]], pkg_ns_env))
+    #import_xls <<- module1$import_xls
+    main_xls <<- create_df_xls$main_xls
+    main_xlsx <<- create_df_xlsx$main_xlsx
+  }
+
   # packages <- c("pandas", "xlrd", "openpyxl", "numpy", "XlsxWriter")
   # for (package in packages) {
   #   if (reticulate::py_module_available(package) == FALSE) {
@@ -79,58 +133,7 @@ xlsxwriter <- NULL
 }
 # pkg_ns_env <- parent.env(environment())
 
-if (reticulate::py_module_available("pandas") & reticulate::py_module_available("xlrd") &
-    reticulate::py_module_available("openpyxl") & reticulate::py_module_available("numpy") &
-    reticulate::py_module_available("xlsxwriter")) {
-  ABStable <<- reticulate::import_from_path(
-    module = "ABStable",
-    path = system.file("python", package = packageName())
-  )
-  # assignInMyNamespace(...) is meant for namespace manipulation
-  # for (obj in names(ABStable)) {
-  #   assignInMyNamespace(obj, ABStable[[obj]])
-  #   assign(obj,obj,pkg_ns_env)
-  # }
-  # ABStable
-  # module1 <- reticulate::import_from_path(module = "import_xls",
-  #                                            path =system.file("python",
-  #                                                              package = packageName()))
-  create_df_xls <<- reticulate::import_from_path(module = "create_df_xls",
-                                                 path = system.file("python",
-                                                                    package = packageName()))
 
-  # for (obj in names(create_df_xls)) {
-  #   assignInMyNamespace(obj, create_df_xls[[obj]])
-  #   assign(obj,obj,pkg_ns_env)
-  # }
-
-
-  ABStable_xlsx <<- reticulate::import_from_path(
-    module = "ABStable_xlsx",
-    path = system.file("python", package = packageName())
-  )
-  # assignInMyNamespace(...) is meant for namespace manipulation
-  # for (obj in names(ABStable_xlsx)) {
-  #   assignInMyNamespace(obj, ABStable_xlsx[[obj]])
-  #   assign(obj,obj,pkg_ns_env)
-  # }
-
-  create_df_xlsx <<- reticulate::import_from_path(
-    module = "create_df_xlsx",
-    path = system.file("python", package = packageName())
-  )
-  # assignInMyNamespace(...) is meant for namespace manipulation
-  # for (obj in names(create_df_xlsx)) {
-  #   assignInMyNamespace(obj, create_df_xlsx[[obj]])
-  #   assign(obj,obj,pkg_ns_env)
-  # }
-
-
-  # lapply(names(module3), function(name) assign(name, module3[[name]], pkg_ns_env))
-  #import_xls <<- module1$import_xls
-  main_xls <<- create_df_xls$main_xls
-  main_xlsx <<- create_df_xlsx$main_xlsx
-}
 # packages <- c("itertools", "xlrd", "copy", "openpyxl", "operator", "xlsxwriter")
 # for (package in packages) {
 #   if (reticulate::py_module_available(package) == FALSE) {
