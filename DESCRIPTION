@@ -18,13 +18,9 @@ Config/reticulate:
   list(
     packages = list(
       list(package = "xlrd", pip = TRUE),
-      list(package = "itertools", pip = TRUE),
       list(package = "pandas", pip = TRUE),
-      list(package = "os", pip = TRUE),
       list(package = "openpyxl", pip = TRUE),
-      list(package = "copy", pip = TRUE),
       list(package = "numpy", pip = TRUE),
-      list(package = "operator", pip = TRUE),
-      list(package = "xlsxwriter", pip = TRUE)
+      list(package = "XlsxWriter", pip = TRUE)
     )
   )

@@ -43,17 +43,18 @@ rm(create_df_xlsx)
 
 
 .onLoad <- function(libname, pkgname) {
+  reticulate::configure_environment(pkgname)
   # reticulate::py_install("openpyxl")
   # reticulate::py_install("xlsxwriter")
 
   pkg_ns_env <- parent.env(environment())
-  packages <- c("itertools", "xlrd", "copy", "openpyxl", "operator", "xlsxwriter")
-  for (package in packages) {
-    if (reticulate::py_module_available(package) == FALSE) {
-      reticulate::py_install(package)
-    }
-    assign(package,reticulate::import(package),pkg_ns_env)
-  }
+  # packages <- c("itertools", "xlrd", "copy", "openpyxl", "operator", "xlsxwriter")
+  # for (package in packages) {
+  #   if (reticulate::py_module_available(package) == FALSE) {
+  #     reticulate::py_install(package)
+  #   }
+  #   assign(package,reticulate::import(package),pkg_ns_env)
+  # }
 
   #reticulate::configure_environment(pkgname)
   #xlrd <<- reticulate::import("xlrd", delay_load = FALSE)
@@ -188,17 +189,5 @@ tidy_ABS <- function(xl_workbook, allowed_blank_rows=1,
 #devtools::install()
 #library(ReadABS)
 
-# Config/reticulate:
-#   list(
-#     packages = list(
-#       list(package = "xlrd", pip = TRUE),
-#       list(package = "itertools", pip = TRUE),
-#       list(package = "pandas", pip = TRUE),
-#       list(package = "os", pip = TRUE),
-#       list(package = "openpyxl", pip = TRUE),
-#       list(package = "copy", pip = TRUE),
-#       list(package = "numpy", pip = TRUE),
-#       list(package = "operator", pip = TRUE),
-#       list(package = "xlsxwriter", pip = TRUE)
-#     )
-#   )
+#git remote add origin https://github.com/marco-83/ReadABS
+# git push -u origin master
