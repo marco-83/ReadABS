@@ -188,6 +188,7 @@ tidy_ABS <- function(xl_workbook, allowed_blank_rows=1,
 #devtools::document()
 #devtools::install()
 #library(ReadABS)
-
+# git add .
+# git commit -m "Initial commit"
 #git remote add origin https://github.com/marco-83/ReadABS
 # git push -u origin master
