@@ -52,7 +52,23 @@
   reticulate::configure_environment(pkgname)
   #xlsxwriter <<- reticulate::import("xlsxwriter", delay_load = TRUE)
 
+  ABStable <- reticulate::import_from_path(
+    module = "ABStable",
+    path = system.file("python", package = packageName())
+  )
+  ABStable_xlsx <- reticulate::import_from_path(
+    module = "ABStable_xlsx",
+    path = system.file("python", package = packageName())
+  )
 
+  create_df_xlsx <- reticulate::import_from_path(
+    module = "create_df_xlsx",
+    path = system.file("python", package = packageName())
+  )
+  create_df_xlsx <- reticulate::import_from_path(
+    module = "create_df_xlsx",
+    path = system.file("python", package = packageName())
+  )
   # reticulate::py_install("openpyxl")
   # reticulate::py_install("xlsxwriter")
 
@@ -137,23 +153,7 @@
 
 }
 # pkg_ns_env <- parent.env(environment())
-ABStable <<- reticulate::import_from_path(
-  module = "ABStable",
-  path = system.file("python", package = packageName())
-)
-ABStable_xlsx <<- reticulate::import_from_path(
-  module = "ABStable_xlsx",
-  path = system.file("python", package = packageName())
-)
 
-create_df_xlsx <<- reticulate::import_from_path(
-  module = "create_df_xlsx",
-  path = system.file("python", package = packageName())
-)
-create_df_xlsx <<- reticulate::import_from_path(
-  module = "create_df_xlsx",
-  path = system.file("python", package = packageName())
-)
 
 # packages <- c("itertools", "xlrd", "copy", "openpyxl", "operator", "xlsxwriter")
 # for (package in packages) {
