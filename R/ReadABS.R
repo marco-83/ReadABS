@@ -53,15 +53,16 @@ xlsxwriter <- NULL
   # reticulate::py_install("openpyxl")
   # reticulate::py_install("xlsxwriter")
 
-  pkg_ns_env <- parent.env(environment())
+  #pkg_ns_env <- parent.env(environment())
+#
+#   if (reticulate::py_module_available("pandas") & reticulate::py_module_available("xlrd") &
+#       reticulate::py_module_available("openpyxl") & reticulate::py_module_available("numpy") &
+#       reticulate::py_module_available("xlsxwriter")) {
 
-  if (reticulate::py_module_available("pandas") & reticulate::py_module_available("xlrd") &
-      reticulate::py_module_available("openpyxl") & reticulate::py_module_available("numpy") &
-      reticulate::py_module_available("xlsxwriter")) {
-    ABStable <<- reticulate::import_from_path(
-      module = "ABStable",
-      path = system.file("python", package = packageName())
-    )
+    # ABStable <<- reticulate::import_from_path(
+    #   module = "ABStable",
+    #   path = system.file("python", package = packageName())
+    # )
     # assignInMyNamespace(...) is meant for namespace manipulation
     # for (obj in names(ABStable)) {
     #   assignInMyNamespace(obj, ABStable[[obj]])
@@ -71,9 +72,13 @@ xlsxwriter <- NULL
     # module1 <- reticulate::import_from_path(module = "import_xls",
     #                                            path =system.file("python",
     #                                                              package = packageName()))
-    create_df_xls <<- reticulate::import_from_path(module = "create_df_xls",
-                                                   path = system.file("python",
-                                                                      package = packageName()))
+    # create_df_xls <<- reticulate::import_from_path(module = "create_df_xls",
+    #                                                path = system.file("python",
+    #                                                                   package = packageName()))
+    ABStable <<- reticulate::import(module = "ABStable", delay_load = TRUE)
+    create_df_xls <<- reticulate::import(module = "create_df_xls", delay_load = TRUE)
+    ABStable_xlsx <<- reticulate::import(module = "ABStable_xlsx", delay_load = TRUE)
+    create_df_xlsx <<- reticulate::import(module = "create_df_xlsx", delay_load = TRUE)
 
     # for (obj in names(create_df_xls)) {
     #   assignInMyNamespace(obj, create_df_xls[[obj]])
@@ -81,20 +86,22 @@ xlsxwriter <- NULL
     # }
 
 
-    ABStable_xlsx <<- reticulate::import_from_path(
-      module = "ABStable_xlsx",
-      path = system.file("python", package = packageName())
-    )
+    # ABStable_xlsx <<- reticulate::import_from_path(
+    #   module = "ABStable_xlsx",
+    #   path = system.file("python", package = packageName())
+    # )
+
+
     # assignInMyNamespace(...) is meant for namespace manipulation
     # for (obj in names(ABStable_xlsx)) {
     #   assignInMyNamespace(obj, ABStable_xlsx[[obj]])
     #   assign(obj,obj,pkg_ns_env)
     # }
 
-    create_df_xlsx <<- reticulate::import_from_path(
-      module = "create_df_xlsx",
-      path = system.file("python", package = packageName())
-    )
+    # create_df_xlsx <<- reticulate::import_from_path(
+    #   module = "create_df_xlsx",
+    #   path = system.file("python", package = packageName())
+    # )
     # assignInMyNamespace(...) is meant for namespace manipulation
     # for (obj in names(create_df_xlsx)) {
     #   assignInMyNamespace(obj, create_df_xlsx[[obj]])
@@ -106,7 +113,7 @@ xlsxwriter <- NULL
     #import_xls <<- module1$import_xls
     main_xls <<- create_df_xls$main_xls
     main_xlsx <<- create_df_xlsx$main_xlsx
-  }
+  # }
 
   # packages <- c("pandas", "xlrd", "openpyxl", "numpy", "XlsxWriter")
   # for (package in packages) {
