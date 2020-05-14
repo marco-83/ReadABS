@@ -43,7 +43,7 @@ rm(create_df_xlsx)
 
 
 .onLoad <- function(libname, pkgname) {
-  reticulate::configure_environment(pkgname)
+
   # reticulate::py_install("openpyxl")
   # reticulate::py_install("xlsxwriter")
 
@@ -55,6 +55,7 @@ rm(create_df_xlsx)
     }
     #assign(package,reticulate::import(package),pkg_ns_env)
   }
+  reticulate::configure_environment(pkgname)
 
   #reticulate::configure_environment(pkgname)
   #xlrd <<- reticulate::import("xlrd", delay_load = FALSE)
@@ -80,6 +81,7 @@ rm(create_df_xlsx)
     assignInMyNamespace(obj, create_df_xls[[obj]])
     assign(obj,obj,pkg_ns_env)
   }
+
 
   ABStable_xlsx <- reticulate::import_from_path(
     module = "ABStable_xlsx",
