@@ -494,7 +494,7 @@ def describe_row_headers(data_rows, data_cols, sheet_name, row_descriptions, col
 
     sheet = xl_workbook.get_sheet_by_name(sheet_name)
     first_row = min(data_rows)
-    #top_cell_row = min(data_rows)
+    top_cell_row = min(data_rows)
     first_col = min(data_cols)
     other_columns = set(i for i in row_descriptions if i not in columns_with_indentation)
 
@@ -544,24 +544,28 @@ def describe_row_headers(data_rows, data_cols, sheet_name, row_descriptions, col
         all_mergers.append(i.bounds)
 
     merged_meta_data_row_headings = []
+    merged_meta_data_col_headings = []
     for i in all_mergers:
         # Only keep the merged cells that are above the data; not to the left and not to the right
         if i[1] in data_rows and i[0] < first_col:
             merged_meta_data_row_headings.append(i)
+        elif i[0] < first_col:
+            merged_meta_data_col_headings.append(i)
 
     # Look for a header row above the row descriptions.
     # The header row must have something in each cell above the row descriptions, otherwise return None.
     row_descriptions_header_row = None
     for r in reversed(range(1, min(data_rows))):  # Note: 'range' does not include end point
-        if row_descriptions_header_row:
-            break
-        for c in other_columns:
-            #print('sheet_name', sheet_name, 'row', r, 'col', c)
-            if not sheet.cell(row=r, column=c).value:
-                row_descriptions_header_row = None
-                continue
-            else:
-                row_descriptions_header_row = r
+        if r not in merged_meta_data_col_headings[1] and r > top_cell_row - 2:  # 2 above data is a bit arbitrary
+            if row_descriptions_header_row:
+                break
+            for c in other_columns:
+                #print('sheet_name', sheet_name, 'row', r, 'col', c)
+                if not sheet.cell(row=r, column=c).value:
+                    row_descriptions_header_row = None
+                    continue
+                else:
+                    row_descriptions_header_row = r
 
     row_titles = {}
     if row_descriptions_header_row:

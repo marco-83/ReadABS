@@ -209,7 +209,7 @@ tidy_ABS <- function(xl_workbook, allowed_blank_rows=1,
     stop("allowed_blank_rows options are 1 or 2") }
 
   if (!(spreadsheet_type %in% c("Data cube", "Time series", "Census"))) {
-    stop("spreadsheet_type options are 'Data cube', 'Time series' or 'Census") }
+    stop("spreadsheet_type options are 'Data cube', 'Time series' or 'Census'") }
 
   # check file extenstion
   ex <- strsplit(xl_workbook, split="\\.")[[1]][-1]
@@ -224,9 +224,8 @@ tidy_ABS <- function(xl_workbook, allowed_blank_rows=1,
                         spreadsheet_type=spreadsheet_type)
   }
   # Convert pandas dataframes to R dataframes
-  output[[1]] <-lapply(output[[1]], function(x) reticulate::py_to_r(x))
+  output[[1]] <- lapply(output[[1]], function(x) reticulate::py_to_r(x))
   output
-
 }
 
 #tidy_ABS(xl_workbook = "81550do005_201718.xls")
