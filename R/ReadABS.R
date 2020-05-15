@@ -223,6 +223,8 @@ tidy_ABS <- function(xl_workbook, allowed_blank_rows=1,
     output <- main_xlsx(excel_workbook=xl_workbook, allowed_blank_rows=allowed_blank_rows,
                         spreadsheet_type=spreadsheet_type)
   }
+  # Convert pandas dataframes to R dataframes
+  output[[1]] <-lapply(output[[1]], function(x) reticulate::py_to_r(x))
   output
 
 }
