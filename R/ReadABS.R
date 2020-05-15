@@ -50,7 +50,6 @@
 
 .onLoad <- function(libname, pkgname) {
   reticulate::configure_environment(pkgname)
-  pd <<- reticulate::import("pandas", delay_load = TRUE)
 
   # ABStable <- reticulate::import_from_path(
   #   module = "ABStable",
