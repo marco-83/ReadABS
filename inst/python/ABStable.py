@@ -86,7 +86,6 @@ def define_table(xl_workbook, data_sheets, allowed_blank_rows, spreadsheet_type)
 
             table.last_row_in_sheet = find_last_row_in_sheet(xl_workbook, table.sheet_name)
 
-            #print("first_col", first_col, "first_row", first_row, "table.sheet_name", table.sheet_name)
             # Find row descriptions
             table.row_descriptions, table.table_type = locate_row_descriptions(xl_workbook, first_col, first_row,
                                                                                table.sheet_name, table.cols)
@@ -211,9 +210,7 @@ def locate_data(xl_workbook, data_sheets, allowed_blank_rows, data_type):
                 cell_font = xl_workbook.font_list[rd_xf.font_index].weight
                 #cell_format = xl_workbook.format_map[rd_xf.format_key].format_str
                 cell_type = ctype_text.get(cell_obj.ctype, 'unknown type')
-                # if idx in [0,4]:
-                #     print('row', i, 'column', idx, 'cell_type', cell_type, 'cell_obj.value', cell_obj.value, 'cell_format',
-                #           cell_format)
+
                 # Check if it is a total row (p.s. this is very specific, sometimes total row is at the top and bold
                 if cell_type == "number" and not found_data and idx != 0:  # Top left data cell
                     left_of_data = sheet.row(i)[idx - 1].value
@@ -341,12 +338,11 @@ def describe_indentation(data_rows, data_cols, sheet_name, row_descriptions, xl_
                 while indentation_cell > i:
                     cell_row -= 1
                     indentation_cell = xl_workbook.xf_list[sheet.cell_xf_index(cell_row, columns_with_indentation[idx])].alignment.indent_level
-                    # print('indentation_cell', indentation_cell)
+
                     if cell_row < top_cell_row:
                         top_cell_row = cell_row
             # column += 1
-    # if sheet_name == "Table 1":
-    #     print('top_cell_row_indentation', top_cell_row)
+
     return indentation_levels, columns_with_indentation, top_cell_row, top_header_row
 
     # # Only run if there is 1 info col
@@ -426,8 +422,7 @@ def describe_row_headers(data_rows, data_cols, sheet_name, row_descriptions, col
 
     merged_meta_data_col_headings = [a_tuple[0] for a_tuple in merged_meta_data_col_headings]
 
-    # if sheet_name == "Table 4":
-    #     print("all_mergers", all_mergers, "merged_meta_data_col_headings", merged_meta_data_col_headings)
+
 
     # Look for a header row above the row descriptions.
     # The header row must have something in each cell above the row descriptions, otherwise return None.
@@ -455,8 +450,7 @@ def describe_row_headers(data_rows, data_cols, sheet_name, row_descriptions, col
     else:
         for i, c in enumerate(other_columns):
             row_titles[c] = "Row_description_title_sub_" + str(i)
-    # if sheet_name == "Table 1":
-    #     print("merged_meta_data_row_headings", merged_meta_data_row_headings)
+
     return merged_meta_data_row_headings, row_descriptions_header_row, row_titles
 
 
@@ -517,7 +511,6 @@ def describe_col_headings(xl_workbook, sheet_name, data_rows, data_cols, row_des
     blank_row = False
     found_a_non_blank_row = False
     found_a_column_header = False
-    #print("all_mergers", all_mergers)
 
     def check_rows(idx, merged_meta_data):
         if merged_meta_data:
@@ -576,8 +569,6 @@ def describe_col_headings(xl_workbook, sheet_name, data_rows, data_cols, row_des
                     for c in row_descriptions:
                         if c in list(zip(*mergers_filtered))[2]:
                             column_headers_already_included.add(r)
-                            # if sheet_name == "Table 1":
-                            #     print('r', r, 'c', c, 'all_mergers', all_mergers, 'mergers_filtered', mergers_filtered)
 
         rows_above_data = list(filter(lambda i: i not in column_headers_already_included, [*rows_above_data]))
 
@@ -622,10 +613,7 @@ def describe_col_headings(xl_workbook, sheet_name, data_rows, data_cols, row_des
                         break
                     else:
                         blank_row = False
-    # if sheet_name == "Table 1":
-    #     print('extra_meta_data', extra_meta_data, 'row_descriptions_header_row', row_descriptions_header_row,
-    #           'top_row', top_row, 'top_header_row', top_header_row, 'rows_above_data', rows_above_data,
-    #           'column_headers_already_included', column_headers_already_included, 'row_descriptions', row_descriptions)
+
     else:
         columns_to_evaluate = range(0, max(row_descriptions))
         rows_above_top_header_row = range(0, top_header_row)
@@ -822,8 +810,6 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
             all_positions.append((i, i + 1, j, j + 1))
 
     merged_meta_data_row_headings = list(filter(lambda x: x[0] in data_rows, merged_data_rows))
-    if sheet_name == "Table 1":
-        print("data_rows", data_rows)
 
     all_merged_positions = []
     for i in merged_meta_data_row_headings:
@@ -849,8 +835,6 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
         k += 1
 
     empty_rows = dict(zip(keys, values))
-    if sheet_name == "Table 1":
-        print("empty_rows", empty_rows, "merged_meta_data_extended", merged_meta_data_extended)
 
     descriptions_in_other_rows = []
     columns_included = set()
@@ -928,7 +912,7 @@ def merged_data_subheadings_function(xl_workbook, sheet_name, merged_data_cols, 
     sheet = xl_workbook.sheet_by_name(sheet_name)
     other_rows = set(i for i in range(last_row) if i not in data_rows and i > max(rows)-1)
     all_rows = rows.union(other_rows)
-    #print("other_rows", other_rows)
+
     merged_meta_data_subheadings_potential = list(filter(lambda x: x[0] in other_rows, merged_data_cols))
 
     # Get the merged items that have the same column dimensions. These are understood to be subheadings.
@@ -943,9 +927,6 @@ def merged_data_subheadings_function(xl_workbook, sheet_name, merged_data_cols, 
                 merged_meta_data_subheadings.append(i)
 
     duplicate_rows = set(el[0] for el in merged_meta_data_subheadings)
-
-    # print("merged_meta_data_subheadings", merged_meta_data_subheadings)
-    # print("table.top_row", top_row)
 
     first_col = min(data_cols)
     all_positions = []
@@ -1021,11 +1002,6 @@ def merged_data_subheadings_function(xl_workbook, sheet_name, merged_data_cols, 
     column_subheadings = column_subheadings.rename(columns={"New_index": "index"})
     column_subheadings.set_index('index', inplace=True)
     column_subheadings = column_subheadings.rename_axis(None)
-
-    # if sheet_name == "Table_1":
-    #     print(column_subheadings)
-    #     print(data_rows)
-    #     print(spreadsheet_rows)
 
     return column_subheadings
 
