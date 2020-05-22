@@ -130,7 +130,7 @@ def extract_data(table, xl_workbook, spreadsheet_type, df):
             cell = sheet.row(r)[c]
             df.loc[r - first_row, c - first_col] = cell.value
 
-    # Reset row indices so they go 0,1,2...n
+    # Reset row indices so they go 0,1,2...nmain.py
     df = df.reset_index(drop=True)
     # Add row descriptions to the dataframe
     row_descriptions = table.row_descriptions
@@ -191,13 +191,16 @@ def extract_data(table, xl_workbook, spreadsheet_type, df):
                         column += 1
                     row += 1
         other_columns = set(i for i in table.row_descriptions if i not in table.columns_with_indentation)
-        if other_columns and spreadsheet_type != "Time series":
+
+        if other_columns:
             row_headings = merged_data_row_headings_function(xl_workbook, sheet_name=table.sheet_name,
                                                              merged_data_rows=table.merged_meta_data_row_headings,
                                                              data_rows=table.rows,
                                                              row_descriptions=other_columns,
                                                              row_titles=table.row_titles,
                                                              top_header_row=table.top_header_row)
+            if spreadsheet_type == "Time series":
+                row_headings.rename(columns={'Series ID': 'Date'}, inplace=True)
             df = df.join(row_headings)
         # if table.sheet_name == "Table 1":
         #     print(df)
@@ -329,8 +332,8 @@ def pivot_table(column_headings, column_subheadings, xl_workbook, table, spreads
     #     print("df", df)
 
     # Rename columns and re-order them
-    if spreadsheet_type == 'Time series':
-        df = df.rename(columns={"descriptor_col_0": "Date"})
+    # if spreadsheet_type == 'Time series':
+    #     df = df.rename(columns={"descriptor_col_0": "Date"})
 
     cols = df.columns.tolist()
 
@@ -347,9 +350,5 @@ def pivot_table(column_headings, column_subheadings, xl_workbook, table, spreads
     df = df[cols]
 
     return df
-
-
-
-
 
 

@@ -552,11 +552,13 @@ def describe_row_headers(data_rows, data_cols, sheet_name, row_descriptions, col
         elif i[0] < first_col:
             merged_meta_data_col_headings.append(i)
 
+    merged_meta_data_col_headings = [a_tuple[1] for a_tuple in merged_meta_data_col_headings]
+
     # Look for a header row above the row descriptions.
     # The header row must have something in each cell above the row descriptions, otherwise return None.
     row_descriptions_header_row = None
     for r in reversed(range(1, min(data_rows))):  # Note: 'range' does not include end point
-        if r not in merged_meta_data_col_headings[1] and r > top_cell_row - 2:  # 2 above data is a bit arbitrary
+        if r not in merged_meta_data_col_headings and r > top_cell_row - 2:  # 2 above data is a bit arbitrary
             if row_descriptions_header_row:
                 break
             for c in other_columns:
@@ -1026,7 +1028,10 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
                     # if sheet_name == "Table 4A.1":
                     #     print('value', cell.value, 'row', i[1], 'col', i[0], 'row_position', row_position, 'column_heading', column_heading)
                     if row_position >= 0:
-                        row_headings.loc[row_position, column_heading] = cell.value
+                        if is_date_format(cell.number_format):
+                            row_headings.loc[row_position, column_heading] = pd.to_datetime(cell.value).strftime('%d/%m/%Y')
+                        else:
+                            row_headings.loc[row_position, column_heading] = cell.value
                         if cell.value and i[1] in data_rows:
                             columns_included.add(i[0])
                     row_position += 1
@@ -1198,3 +1203,4 @@ def merged_data_subheadings_function(xl_workbook, sheet_name, merged_data_cols, 
     #     print(spreadsheet_rows)
 
     return column_subheadings
+

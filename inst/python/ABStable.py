@@ -424,12 +424,16 @@ def describe_row_headers(data_rows, data_cols, sheet_name, row_descriptions, col
         elif i[2] < first_col:
             merged_meta_data_col_headings.append(i)
 
+    merged_meta_data_col_headings = [a_tuple[0] for a_tuple in merged_meta_data_col_headings]
+
+    # if sheet_name == "Table 4":
+    #     print("all_mergers", all_mergers, "merged_meta_data_col_headings", merged_meta_data_col_headings)
 
     # Look for a header row above the row descriptions.
     # The header row must have something in each cell above the row descriptions, otherwise return None.
     row_descriptions_header_row = None
     for r in reversed(range(1, min(data_rows))):  # Note: 'range' does not include end point
-        if r not in merged_meta_data_col_headings[0] and r > top_cell_row - 2:  # 2 above data is a bit arbitrary
+        if r not in merged_meta_data_col_headings and r > top_cell_row - 2:  # 2 above data is a bit arbitrary
             if row_descriptions_header_row:
                 break
             for c in other_columns:
@@ -451,7 +455,8 @@ def describe_row_headers(data_rows, data_cols, sheet_name, row_descriptions, col
     else:
         for i, c in enumerate(other_columns):
             row_titles[c] = "Row_description_title_sub_" + str(i)
-
+    # if sheet_name == "Table 1":
+    #     print("merged_meta_data_row_headings", merged_meta_data_row_headings)
     return merged_meta_data_row_headings, row_descriptions_header_row, row_titles
 
 
@@ -817,6 +822,8 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
             all_positions.append((i, i + 1, j, j + 1))
 
     merged_meta_data_row_headings = list(filter(lambda x: x[0] in data_rows, merged_data_rows))
+    if sheet_name == "Table 1":
+        print("data_rows", data_rows)
 
     all_merged_positions = []
     for i in merged_meta_data_row_headings:
@@ -842,19 +849,8 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
         k += 1
 
     empty_rows = dict(zip(keys, values))
-
-    # row_titles = {}
-    # if spreadsheet_type == "Census TableBuilder":
-    #     header_row = min(data_rows) - 1
-    #     i = 1
-    #     for c in row_descriptions:
-    #         row_titles[c] = sheet.cell_value(rowx=header_row, colx=c)
-    #         if row_titles[c] == '':
-    #             row_titles[c] = "Row_description_title_" + str(i)
-    #             i += 1
-    # else:
-    #     for i, c in enumerate(row_descriptions):
-    #         row_titles[c] = "Row_description_title_" + str(i)
+    if sheet_name == "Table 1":
+        print("empty_rows", empty_rows, "merged_meta_data_extended", merged_meta_data_extended)
 
     descriptions_in_other_rows = []
     columns_included = set()
@@ -865,7 +861,7 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
             if i[2] == c:
                 row_position = i[0] - first_data_row  # row position in df (in other words, the row number)
                 # Filter out entries that occur in empty columns
-                empty_rows_filtered = dict(filter(lambda elem: elem[1] < i[3], empty_rows.items()))
+                empty_rows_filtered = dict(filter(lambda elem: elem[1] < i[1], empty_rows.items()))
                 if empty_rows_filtered:
                     row_position = row_position - max(empty_rows_filtered, key=empty_rows_filtered.get)
                     for k in range(i[0], i[1]):
@@ -876,11 +872,16 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
                                                                'Desc_row'+str(i[2]): cell_value})
                 for k in range(i[0], i[1]):
                     cell = sheet.row(i[0])[i[2]]
-                    if row_position >= 0:
-                        row_headings.loc[row_position, column_heading] = cell.value
+                    if row_position >= 0 and i[0] in data_rows:
+                        if ctype_text.get(cell.ctype, 'unknown type') == "xldate":
+                            row_headings.loc[row_position, column_heading] = pd.to_datetime((cell.value - 25569) * 86400.0,
+                                                                             unit='s').strftime('%d/%m/%Y')
+                        else:
+                            row_headings.loc[row_position, column_heading] = cell.value
                         if cell.value != '' and i[0] in data_rows:
                             columns_included.add(i[2])
                     row_position += 1
+
     if descriptions_in_other_rows:
         descriptions_in_other_rows = list(filter(lambda i: i['Row'] not in data_rows and
                                                            i['Col'] not in columns_included,
@@ -1027,3 +1028,4 @@ def merged_data_subheadings_function(xl_workbook, sheet_name, merged_data_cols, 
     #     print(spreadsheet_rows)
 
     return column_subheadings
+
