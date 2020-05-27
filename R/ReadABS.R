@@ -69,13 +69,11 @@
 
   create_df_xls <- reticulate::import_from_path(
     module = "create_df_xls",
-    path = system.file("python", package = packageName()),
-    convert = FALSE
+    path = system.file("python", package = packageName())
   )
   create_df_xlsx <- reticulate::import_from_path(
     module = "create_df_xlsx",
-    path = system.file("python", package = packageName()),
-    convert = FALSE
+    path = system.file("python", package = packageName())
   )
 
   main_xls <<- create_df_xls$main_xls
@@ -233,7 +231,7 @@ tidy_ABS <- function(xl_workbook, allowed_blank_rows=1,
                         spreadsheet_type=spreadsheet_type)
   }
   # Convert pandas dataframes to R dataframes
-  #output[[1]] <- lapply(output[[1]], function(x) reticulate::py_to_r(x))
+  output[[1]] <- lapply(output[[1]], function(x) reticulate::py_to_r(x))
   output
 }
 
