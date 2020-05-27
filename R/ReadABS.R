@@ -41,11 +41,11 @@
 # }
 # rm(create_df_xlsx)
 
-# xlrd <- NULL
-# pandas <- NULL
-# openpyxl <- NULL
-# numpy <- NULL
-# xlsxwriter <- NULL
+xlrd <- NULL
+pandas <- NULL
+openpyxl <- NULL
+numpy <- NULL
+xlsxwriter <- NULL
 
 
 .onLoad <- function(libname, pkgname) {
@@ -63,7 +63,7 @@
   pandas <<- reticulate::import("pandas", delay_load = TRUE)
   openpyxl <<- reticulate::import("openpyxl", delay_load = TRUE)
   numpy <<- reticulate::import("numpy", delay_load = TRUE)
-  XlsxWriter <<- reticulate::import("XlsxWriter", delay_load = TRUE)
+  XlsxWriter <<- reticulate::import("xlsxwriter", delay_load = TRUE)
 
   create_df_xls <- reticulate::import_from_path(
     module = "create_df_xls",
