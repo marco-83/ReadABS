@@ -41,13 +41,13 @@
 # }
 # rm(create_df_xlsx)
 
-xlrd <- NULL
-pandas <- NULL
-openpyxl <- NULL
-# numpy <- NULL
-xlsxwriter <- NULL
-main_xls <- NULL
-main_xlsx <- NULL
+# xlrd <- NULL
+# pandas <- NULL
+# openpyxl <- NULL
+# # numpy <- NULL
+# xlsxwriter <- NULL
+# main_xls <- NULL
+# main_xlsx <- NULL
 
 .onLoad <- function(libname, pkgname) {
   #reticulate::use_miniconda(condaenv = NULL, required = FALSE)
