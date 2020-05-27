@@ -49,8 +49,8 @@
 
 
 .onLoad <- function(libname, pkgname) {
-  reticulate::configure_environment(pkgname)
   reticulate::use_miniconda(condaenv = NULL, required = FALSE)
+  reticulate::configure_environment(pkgname)
   # ABStable <- reticulate::import_from_path(
   #   module = "ABStable",
   #   path = system.file("python", package = packageName())
