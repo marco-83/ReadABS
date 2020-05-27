@@ -207,7 +207,6 @@ def define_table(xl_workbook, data_sheets, allowed_blank_rows, spreadsheet_type)
     for table in tables:
         try:
 
-            #print('table.cols', table.cols, 'table.rows', table.rows)
             # Extract some details from the table
             first_col = min(table.cols)
             last_col = max(table.cols)
@@ -217,13 +216,10 @@ def define_table(xl_workbook, data_sheets, allowed_blank_rows, spreadsheet_type)
 
             table.last_row_in_sheet = find_last_row_in_sheet(xl_workbook, table.sheet_name)
 
-            # print("first_col", first_col, "first_row", first_row, "table.sheet_name", table.sheet_name)
             # Find row descriptions
             table.row_descriptions, table.table_type = locate_row_descriptions(xl_workbook, first_col, first_row,
                                                                                     table.sheet_name, table.cols)
 
-            # if table.row_descriptions == "Could not locate row headings":
-            #     continue
 
             # How many levels of indentation are there, if any, in the descriptor column?
             # If there are more than 1 row descriptor columns, then we can assume there is no indentation
@@ -269,11 +265,6 @@ def find_last_row_in_sheet(xl_workbook, sheet_name):
 
 def locate_data(xl_workbook, data_sheets, allowed_blank_rows, data_type):
     """ Function to locate the data in the spreadsheet and assign it to a TableData class """
-    # print("number_format D7", xl_workbook.get_sheet_by_name('Employee jobs index')["D7"].number_format)
-    # print("number_format E7", xl_workbook.get_sheet_by_name('Employee jobs index')["E7"].number_format)
-    # print("number_format E6", xl_workbook.get_sheet_by_name('Employee jobs index')["E6"].number_format)
-    # print("date format E6", is_date_format(xl_workbook.get_sheet_by_name('Employee jobs index')["E6"].number_format))
-    # print("number_format E33", xl_workbook.get_sheet_by_name('Employee jobs index')["E33"].number_format)
 
     # Initiate the first table
     tables = []
@@ -341,7 +332,6 @@ def locate_data(xl_workbook, data_sheets, allowed_blank_rows, data_type):
                     if not found_data:
                         if cell_obj.value in ["Year", "year", "Years", "Date", "Month", "Day"]:
                             date_cols.append(idx + 1)
-                            print(date_cols)
                             continue
                 cell_type = cell_obj.number_format
                 # Check if it is a total row (p.s. this is very specific, sometimes total row is at the top and bold
@@ -435,8 +425,6 @@ def describe_indentation(data_rows, data_cols, sheet_name, row_descriptions, xl_
             if idx >= first_col - 1:
                 # As soon as something is found in a cell, it is not a blank row and break the loop, go to next row
                 if not cell_obj.value:
-                    # if sheet_name == "Table 2":
-                    #     print('cell_obj.value', cell_obj.value, 'row', r, 'idx', idx, 'first_col', first_col)
                     blank_row = True
                 else:
                     blank_row = False
@@ -465,25 +453,16 @@ def describe_indentation(data_rows, data_cols, sheet_name, row_descriptions, xl_
             indentation_levels[c].sort()
             columns_with_indentation.append(c)
 
-    # if sheet_name == "Table 1":
-    #     print('indentation_levels', indentation_levels, 'columns_with_indentation', columns_with_indentation)
     for r in data_rows:
         for idx, c in enumerate(columns_with_indentation):
             for i in indentation_levels[c]:
                 cell_row = r
                 indentation_cell = sheet.cell(cell_row, columns_with_indentation[idx]).alignment.indent
-                # if sheet_name == "Table 1":
-                #     print('cell_row_INDENTATION', cell_row, 'indentation_cell', indentation_cell,
-                #           'cell_value', sheet.cell(cell_row, columns_with_indentation[idx]).value, 'i', i, 'c', c)
                 while indentation_cell > i:
                     cell_row -= 1
                     indentation_cell = sheet.cell(cell_row, columns_with_indentation[idx]).alignment.indent
-                    #print('indentation_cell', indentation_cell)
                     if cell_row < top_cell_row:
                         top_cell_row = cell_row
-                        # if sheet_name == "Table 1":
-                        #     print('top_cell_row_INDENTATION', top_cell_row, 'indentation_cell', indentation_cell)
-            #column += 1
 
     return indentation_levels, columns_with_indentation, top_cell_row, top_header_row
 
@@ -562,7 +541,6 @@ def describe_row_headers(data_rows, data_cols, sheet_name, row_descriptions, col
             if row_descriptions_header_row:
                 break
             for c in other_columns:
-                #print('sheet_name', sheet_name, 'row', r, 'col', c)
                 if not sheet.cell(row=r, column=c).value:
                     row_descriptions_header_row = None
                     continue
@@ -613,7 +591,6 @@ def describe_col_headings_timeseries(xl_workbook, sheet_name, data_rows, data_co
         column_titles[r] = sheet.cell(row=r, column=series_id_position[1]).value
         if not column_titles[r]:
             column_titles[r] = "Description"
-    #print('column_header_locations', column_header_locations)
     return column_titles, column_header_locations
 
 
@@ -646,9 +623,7 @@ def describe_col_headings(xl_workbook, sheet_name, data_rows, data_cols, row_des
     all_mergers_ranges = sheet.merged_cells.ranges
     all_mergers = []
     for i in all_mergers_ranges:
-        #print(i.bounds)
         all_mergers.append(i.bounds)
-    #print('all_mergers', all_mergers, type(all_mergers))
 
     rows_above_data = range(1, first_row)
 
@@ -656,8 +631,6 @@ def describe_col_headings(xl_workbook, sheet_name, data_rows, data_cols, row_des
     blank_row = False
     found_a_non_blank_row = False
     found_a_column_header = False
-
-    # print("all_mergers", all_mergers)
 
     def check_rows(idx, merged_meta_data):
         if merged_meta_data:
@@ -714,12 +687,7 @@ def describe_col_headings(xl_workbook, sheet_name, data_rows, data_cols, row_des
                     for c in row_descriptions:
                         if c in list(zip(*mergers_filtered))[0]:
                             column_headers_already_included.add(r)
-                # for c in row_descriptions:
-                #     if r in list(zip(*all_mergers))[1] and c in list(zip(*all_mergers))[0]:
-                #         column_headers_already_included.add(r)
-        # if sheet_name == "Table 1":
-        #     print('r', r, 'c', c, 'all_mergers', all_mergers, 'mergers_filtered', mergers_filtered)
-        #rows_above_data = list(filter(lambda i: i not in column_headers_already_included, [*rows_above_data]))
+
         rows_above_data = range(1, top_header_row + 1)
         rows_above_data = list(filter(lambda i: i not in column_headers_already_included, [*rows_above_data]))
 
@@ -989,8 +957,6 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
         k += 1
 
     empty_rows = dict(zip(keys, values))
-    # if sheet_name == "Table 4A.1":
-    #     print('empty_rows', empty_rows)
 
     # Look for a header row above the row descriptions.
     # The header row must have something in each cell above the row descriptions, otherwise return None.
@@ -1025,8 +991,7 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
                                                                'Desc_row'+str(i[0]): cell_value})
                 for k in range(i[1], i[3] + 1):
                     cell = sheet.cell(row=i[1], column=i[0])
-                    # if sheet_name == "Table 4A.1":
-                    #     print('value', cell.value, 'row', i[1], 'col', i[0], 'row_position', row_position, 'column_heading', column_heading)
+
                     if row_position >= 0:
                         if is_date_format(cell.number_format):
                             row_headings.loc[row_position, column_heading] = pd.to_datetime(cell.value).strftime('%d/%m/%Y')
@@ -1036,10 +1001,6 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
                             columns_included.add(i[0])
                     row_position += 1
 
-    #print('row_headings', row_headings)
-    #     row_headings.to_csv('row_headings.csv')
-    # if sheet_name == "Table 4A.2":
-    #     print('descriptions_in_other_rows', descriptions_in_other_rows)
 
     # If there are descriptions in other rows, they might need to be added in too.
     if descriptions_in_other_rows:
@@ -1065,18 +1026,12 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
         descriptions_in_other_rows = pd.DataFrame(descriptions_in_other_rows)#.set_index('row_position')
         descriptions_in_other_rows = descriptions_in_other_rows.sort_values(by=['Row'])
 
-        # if sheet_name == "Table 4A.2":
-        #     print('descriptions_in_other_rows1', descriptions_in_other_rows)
-        #first_stop = descriptions_in_other_rows['row_position'].min()
+
         descriptions_in_other_rows.set_index('Row', inplace=True)
         descriptions_in_other_rows = descriptions_in_other_rows.reindex(range(max(data_rows)+1))
         descriptions_in_other_rows.ffill(axis=0, inplace=True)
         descriptions_in_other_rows['index'] = descriptions_in_other_rows.index
         descriptions_in_other_rows = descriptions_in_other_rows.merge(correspondence, on='index', how='left')
-        # if sheet_name == "Table 4A.2":
-        #     print('descriptions_in_other_rows2', descriptions_in_other_rows)
-        #     descriptions_in_other_rows.to_csv('descriptions_in_other_rows.csv')
-        #descriptions_in_other_rows.row_position.fillna(descriptions_in_other_rows.New_index, inplace=True)
 
         descriptions_in_other_rows.drop(['row_position', 'index'], axis=1, inplace=True)
         #descriptions_in_other_rows.ffill(axis=0, inplace=True)
@@ -1085,11 +1040,6 @@ def merged_data_row_headings_function(xl_workbook, sheet_name, merged_data_rows,
         descriptions_in_other_rows.set_index('New_index', inplace=True)
         descriptions_in_other_rows.rename_axis(None, inplace=True)
         row_headings = row_headings.join(descriptions_in_other_rows)
-
-        # if sheet_name == "Table 4A.2":
-        #     print('data_rows', data_rows)
-        #     print('columns_included', columns_included)
-        #     print('descriptions_in_other_rows', descriptions_in_other_rows)
 
     return row_headings
 
@@ -1106,7 +1056,7 @@ def merged_data_subheadings_function(xl_workbook, sheet_name, merged_data_cols, 
     sheet = xl_workbook.get_sheet_by_name(sheet_name)
     other_rows = set(i for i in range(last_row) if i not in data_rows and i > max(rows) - 1)
     all_rows = rows.union(other_rows)
-    # print("other_rows", other_rows)
+
     merged_meta_data_subheadings_potential = list(filter(lambda x: x[1] in other_rows, merged_data_cols))
 
     # Get the merged items that have the same column dimensions. These are understood to be subheadings.
@@ -1121,9 +1071,6 @@ def merged_data_subheadings_function(xl_workbook, sheet_name, merged_data_cols, 
                 merged_meta_data_subheadings.append(i)
 
     duplicate_rows = set(el[1] for el in merged_meta_data_subheadings)
-
-    # print("merged_meta_data_subheadings", merged_meta_data_subheadings)
-    # print("table.top_row", top_row)
 
     first_col = min(data_cols)
     all_positions = []
@@ -1196,11 +1143,6 @@ def merged_data_subheadings_function(xl_workbook, sheet_name, merged_data_cols, 
     column_subheadings = column_subheadings.rename(columns={"New_index": "index"})
     column_subheadings.set_index('index', inplace=True)
     column_subheadings = column_subheadings.rename_axis(None)
-
-    # if sheet_name == "Table_1":
-    #     print(column_subheadings)
-    #     print(data_rows)
-    #     print(spreadsheet_rows)
 
     return column_subheadings
 

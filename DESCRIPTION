@@ -14,13 +14,4 @@ LazyData: true
 RoxygenNote: 7.1.0
 Imports:
         reticulate
-Config/reticulate:
-  list(
-    packages = list(
-      list(package = "xlrd"),
-      list(package = "pandas"),
-      list(package = "openpyxl"),
-      list(package = "numpy"),
-      list(package = "XlsxWriter")
-    )
-  )
+
