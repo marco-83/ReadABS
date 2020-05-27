@@ -59,12 +59,14 @@ xlsxwriter <- NULL
   #   module = "ABStable_xlsx",
   #   path = system.file("python", package = packageName())
   # )
+
   xlrd <<- reticulate::import("xlrd", delay_load = TRUE)
   pandas <<- reticulate::import("pandas", delay_load = TRUE)
   openpyxl <<- reticulate::import("openpyxl", delay_load = TRUE)
   numpy <<- reticulate::import("numpy", delay_load = TRUE)
   XlsxWriter <<- reticulate::import("xlsxwriter", delay_load = TRUE)
 
+  py_numpy_available(initialize = TRUE)
   create_df_xls <- reticulate::import_from_path(
     module = "create_df_xls",
     path = system.file("python", package = packageName())
