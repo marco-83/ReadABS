@@ -233,7 +233,7 @@ tidy_ABS <- function(xl_workbook, allowed_blank_rows=1,
                         spreadsheet_type=spreadsheet_type)
   }
   # Convert pandas dataframes to R dataframes
-  output[[1]] <- lapply(output[[1]], function(x) reticulate::py_to_r(x))
+  #output[[1]] <- lapply(output[[1]], function(x) reticulate::py_to_r(x))
   output
 }
 
