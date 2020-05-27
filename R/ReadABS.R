@@ -41,16 +41,16 @@
 # }
 # rm(create_df_xlsx)
 
-xlrd <- NULL
-pandas <- NULL
-openpyxl <- NULL
-numpy <- NULL
-xlsxwriter <- NULL
+# xlrd <- NULL
+# pandas <- NULL
+# openpyxl <- NULL
+# numpy <- NULL
+# xlsxwriter <- NULL
 
 
 .onLoad <- function(libname, pkgname) {
   reticulate::configure_environment(pkgname)
-
+  use_miniconda(condaenv = NULL, required = FALSE)
   # ABStable <- reticulate::import_from_path(
   #   module = "ABStable",
   #   path = system.file("python", package = packageName())
@@ -60,13 +60,12 @@ xlsxwriter <- NULL
   #   path = system.file("python", package = packageName())
   # )
 
-  xlrd <<- reticulate::import("xlrd", delay_load = TRUE)
-  pandas <<- reticulate::import("pandas", delay_load = TRUE)
-  openpyxl <<- reticulate::import("openpyxl", delay_load = TRUE)
-  numpy <<- reticulate::import("numpy", delay_load = TRUE)
-  XlsxWriter <<- reticulate::import("xlsxwriter", delay_load = TRUE)
+  # xlrd <<- reticulate::import("xlrd", delay_load = TRUE)
+  # pandas <<- reticulate::import("pandas", delay_load = TRUE)
+  # openpyxl <<- reticulate::import("openpyxl", delay_load = TRUE)
+  # numpy <<- reticulate::import("numpy", delay_load = TRUE)
+  # XlsxWriter <<- reticulate::import("xlsxwriter", delay_load = TRUE)
 
-  reticulate::py_numpy_available(initialize = TRUE)
   create_df_xls <- reticulate::import_from_path(
     module = "create_df_xls",
     path = system.file("python", package = packageName())
