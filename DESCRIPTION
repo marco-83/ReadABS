@@ -20,7 +20,6 @@ Config/reticulate:
       list(package = "xlrd"),
       list(package = "pandas"),
       list(package = "openpyxl"),
-      list(package = "numpy"),
       list(package = "XlsxWriter")
     )
   )
