@@ -66,7 +66,7 @@ xlsxwriter <- NULL
   numpy <<- reticulate::import("numpy", delay_load = TRUE)
   XlsxWriter <<- reticulate::import("xlsxwriter", delay_load = TRUE)
 
-  py_numpy_available(initialize = TRUE)
+  reticulate::py_numpy_available(initialize = TRUE)
   create_df_xls <- reticulate::import_from_path(
     module = "create_df_xls",
     path = system.file("python", package = packageName())
