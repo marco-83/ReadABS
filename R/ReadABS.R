@@ -66,14 +66,14 @@
   # numpy <<- reticulate::import("numpy", delay_load = TRUE)
   # XlsxWriter <<- reticulate::import("xlsxwriter", delay_load = TRUE)
 
-  create_df_xls <- reticulate::import_from_path(
-    module = "create_df_xls",
-    path = system.file("python", package = packageName())
-  )
-  create_df_xlsx <- reticulate::import_from_path(
-    module = "create_df_xlsx",
-    path = system.file("python", package = packageName())
-  )
+  # create_df_xls <- reticulate::import_from_path(
+  #   module = "create_df_xls",
+  #   path = system.file("python", package = packageName())
+  # )
+  # create_df_xlsx <- reticulate::import_from_path(
+  #   module = "create_df_xlsx",
+  #   path = system.file("python", package = packageName())
+  # )
 
   # main_xls <<- create_df_xls$main_xls
   # main_xlsx <<- create_df_xlsx$main_xlsx
